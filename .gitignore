@@ -1,6 +1,7 @@
 # Prerequisites
 *.d
 .vscode/
+.pio
 
 # Compiled Object files
 *.slo
@@ -31,3 +32,5 @@
 *.exe
 *.out
 *.app
+
+
