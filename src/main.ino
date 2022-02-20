@@ -39,9 +39,11 @@
 #include <Servo.h>
 
 
-const char *ssid = "REPLACE_WITH_YOUR_SSID";         // replace with your SSID
-const char *password = "REPLACE_WITH_YOUR_PASSWORD"; // replace with your Password
-const uint8_t servoPin = D4;                         // replace with servo pin
+const char *ssid = "wireless";         // replace with your SSID
+const char *password = "1234567890"; // replace with your Password
+const uint8_t servoPin = D8;                         // replace with servo pin
+
+
 /* Create Servo Object */
 Servo servo;
 // Create Server instance
@@ -64,8 +66,8 @@ void setup()
     Serial.print(".");
   }
   Serial.print("\nConnected to the WiFi network: ");
-  Serial.print(WiFi.SSID());
-  Serial.print("IP address:");
+  Serial.println(WiFi.SSID());
+  Serial.print("IP address: ");
   Serial.print(WiFi.localIP());
   // Send home page from SPIFFS
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
