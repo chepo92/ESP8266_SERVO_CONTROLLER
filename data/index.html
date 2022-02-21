@@ -22,21 +22,67 @@
 <body>
     <div class="container jumbotron text-center">
         <h1 class="display-4">ESP8266 Servo Control</h1><br>
-        <input type="range" name="angle" id="range" min="0" max="180" value="0" class="custom-range"></br><br>
-        <p id="currentAngle" class="display-4">Current Value : 0 °</p>
+
     </div>
+
+    <div class="container jumbotron text-center">
+        <h2 class="display-4">Servo 1</h2><br>
+        <input type="range" name="angle" id="range1" min="0" max="180" value="0" class="custom-range"></br><br>
+        <p id="currentAngle1" class="display-4">Current Value : 0 °</p>
+    </div>
+    
+    <div class="container jumbotron text-center">
+        <h2 class="display-4">Servo 2</h2><br>
+        <input type="range" name="angle" id="range2" min="0" max="180" value="0" class="custom-range"></br><br>
+        <p id="currentAngle2" class="display-4">Current Value : 0 °</p>
+    </div>
+    
+    <div class="container jumbotron text-center">
+        <h2 class="display-4">Servo 3</h2><br>
+        <input type="range" name="angle" id="range3" min="0" max="180" value="0" class="custom-range"></br><br>
+        <p id="currentAngle3" class="display-4">Current Value : 0 °</p>
+    </div>
+    
+    <div class="container jumbotron text-center">
+        <h2 class="display-4">Servo 4</h2><br>
+        <input type="range" name="angle" id="range4" min="0" max="180" value="0" class="custom-range"></br><br>
+        <p id="currentAngle4" class="display-4">Current Value : 0 °</p>
+    </div>    
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
     <script>
         $(document).ready(() => {
-            $("#range").on("input", () => {
-                $("#currentAngle").text("Current Value : " + $("#range").val() + "°");
+            $("#range1").on("input", () => {
+                $("#currentAngle1").text("Current Value : " + $("#range1").val() + "°");
                 $.post("/angle", {
-                    angle: $("#range").val(),
+                    index: 1,
+                    angle: $("#range1").val(),
                 });
             });
+            $("#range2").on("input", () => {
+                $("#currentAngle2").text("Current Value : " + $("#range2").val() + "°");
+                $.post("/angle", {
+                    index: 2,
+                    angle: $("#range2").val(),
+                });
+            });
+            $("#range3").on("input", () => {
+                $("#currentAngle3").text("Current Value : " + $("#range3").val() + "°");
+                $.post("/angle", {
+                    index: 3,
+                    angle: $("#range3").val(),
+                });
+            });
+            $("#range4").on("input", () => {
+                $("#currentAngle4").text("Current Value : " + $("#range4").val() + "°");
+                $.post("/angle", {
+                    index: 4,
+                    angle: $("#range4").val(),
+                });
+            });                                    
         });
     </script>
 </body>

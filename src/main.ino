@@ -5,30 +5,6 @@
 
   Create a ESP8266 Webserver for controlling the real-time position of the servo motor attached to ESP8266.
   
-  Change these lines as per yours:
-    const char *ssid = "REPLACE_WITH_YOUR_SSID";         // replace with your SSID
-    const char *password = "REPLACE_WITH_YOUR_PASSWORD"; // replace with your Password
-    const uint8_t servoPin = D4;                         // replace with servo pin
-
-  Parts list:
-  
-  NodeMCU :
-  https://amzn.to/397GzNe
-
-  Servo Motor :
-  https://amzn.to/2SmyFtJ
-  
-  The source code can be found at:
-  https://git.io/JfOQv
-  
-  Download ESPAsyncWebServer library :
-  https://github.com/me-no-dev/ESPAsyncWebServer/archive/master.zip
-
-  Download ESPAsyncTCP library :
-  https://github.com/me-no-dev/ESPAsyncTCP/archive/master.zip
-
-  Download ESP8266 Filesystem Uploader :
-  https://github.com/esp8266/arduino-esp8266fs-plugin/releases/download/0.5.0/ESP8266FS-0.5.0.zip
   
 */
 
@@ -41,16 +17,32 @@
 
 const char *ssid = "REPLACE_WITH_YOUR_SSID";         // replace with your SSID
 const char *password = "REPLACE_WITH_YOUR_PASSWORD"; // replace with your Password
-const uint8_t servoPin = D4;                         // replace with servo pin
+// Base, Shoulder, Elbow, Grip
+const uint8_t servoPin1 = D5;                         // replace with servo pin
+const uint8_t servoPin2 = D6;                         // replace with servo pin
+const uint8_t servoPin3 = D7;                         // replace with servo pin
+const uint8_t servoPin4 = D8;                         // replace with servo pin
+
+
 /* Create Servo Object */
-Servo servo;
+Servo servo1;
+Servo servo2;
+Servo servo3;
+Servo servo4;
+
+
 // Create Server instance
 AsyncWebServer server(80);
 void setup()
 {
   // Attach Servo, start SPIFFS and Connect to WiFi
   Serial.begin(115200);
-  servo.attach(servoPin);
+  servo1.attach(servoPin1);
+  servo2.attach(servoPin2);
+  servo3.attach(servoPin3);
+  servo4.attach(servoPin4);
+
+
   if (!SPIFFS.begin())
   {
     Serial.println("An Error has occurred while mounting SPIFFS");
@@ -64,8 +56,8 @@ void setup()
     Serial.print(".");
   }
   Serial.print("\nConnected to the WiFi network: ");
-  Serial.print(WiFi.SSID());
-  Serial.print("IP address:");
+  Serial.println(WiFi.SSID());
+  Serial.print("IP address: ");
   Serial.print(WiFi.localIP());
   // Send home page from SPIFFS
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -75,10 +67,35 @@ void setup()
   // Receive Angle from client and process it 
   server.on("/angle", HTTP_POST, [](AsyncWebServerRequest *request) {
     String angle = request->arg("angle");
-    Serial.println("Current Position: " + angle + "°");
-    servo.write(angle.toInt());
+    String servoIndexStr = request->arg("index");
+    int servoIndex  = servoIndexStr.toInt();
+    switch (servoIndex)
+    {
+    case 1:
+      Serial.println("Current Position: " + angle + "°");
+      servo1.write(angle.toInt());
+      break;
+    case 2:
+      Serial.println("Current Position: " + angle + "°");
+      servo2.write(angle.toInt());
+      break;
+    case 3:
+      Serial.println("Current Position: " + angle + "°");
+      servo3.write(angle.toInt());
+      break;
+    case 4:
+      Serial.println("Current Position: " + angle + "°");
+      servo4.write(angle.toInt());
+      break;                
+    default:
+      Serial.println("Unknown servo" + servoIndexStr);
+      break;
+    }
+
+
     request->send(200);
   });
+
   // Send Favicon 
   server.serveStatic("/favicon.ico", SPIFFS, "/favicon.ico");
   // Begin Server
