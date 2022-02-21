@@ -38,9 +38,10 @@
 #include <ESPAsyncWebServer.h>
 #include <Servo.h>
 
+#include "credentials.h"
 
-const char *ssid = "wireless";         // replace with your SSID
-const char *password = "1234567890"; // replace with your Password
+const char *ssid = WIFI_SSID;         // replace with your SSID
+const char *password = WIFI_PASSWD; // replace with your Password
 const uint8_t servoPin = D8;                         // replace with servo pin
 
 
